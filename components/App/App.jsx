@@ -8,6 +8,8 @@ var App = React.createClass({
 
         <h1>Mommy Nearest People App</h1>
 
+        <People />
+
       </div>
 
     );
