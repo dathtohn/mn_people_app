@@ -111,11 +111,60 @@ var People = React.createClass({displayName: "People",
 
       React.createElement("div", {className: "people"}, 
 
-        React.createElement(PersonForm, {onPersonSubmit:  this.handlePersonSubmit})
+        React.createElement(PersonForm, {onPersonSubmit:  this.handlePersonSubmit}), 
+
+        React.createElement(PeopleList, {data:  this.state.data})
 
       )
 
     );
+  }
+
+});
+
+var PeopleList = React.createClass({displayName: "PeopleList",
+
+  propTypes: {
+    data: React.PropTypes.array
+  },
+
+  getDefaultProps: function() {
+
+    return {
+      data: {}
+    };
+
+  },
+
+  render: function() {
+
+    var data, people, personListItems;
+
+    data   = this.props.data;
+    people = data.people !== undefined ? data.people : [];
+
+    personListItems = people.map( function( person ) {
+
+      return (
+
+        React.createElement(PersonListItem, {person:  person })
+
+      );
+
+    });
+
+    return (
+
+      React.createElement("div", {className: "peopleList"}, 
+
+        React.createElement("h3", null, "People List"), 
+
+         personListItems 
+
+      )
+
+    );
+
   }
 
 });
@@ -200,6 +249,46 @@ var PersonForm = React.createClass({displayName: "PersonForm",
       )
 
     );
+  }
+
+});
+
+var PersonListItem = React.createClass({displayName: "PersonListItem",
+
+  propTypes: {
+    person: React.PropTypes.object
+  },
+
+  getDefaultProps: function() {
+
+    return {
+      person: {}
+    };
+
+  },
+
+  render: function() {
+
+    var person;
+
+    person = this.props.person;
+
+    return (
+
+      React.createElement("div", {className: "personListItem"}, 
+
+        React.createElement("button", null, 
+
+           person.name
+
+        ), 
+
+        React.createElement("button", null, "x")
+
+      )
+
+    );
+
   }
 
 });

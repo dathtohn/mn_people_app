@@ -94,6 +94,8 @@ var People = React.createClass({
 
         <PersonForm onPersonSubmit={ this.handlePersonSubmit } />
 
+        <PeopleList data={ this.state.data } />
+
       </div>
 
     );
