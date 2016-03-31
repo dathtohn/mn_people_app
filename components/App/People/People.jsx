@@ -92,7 +92,11 @@ var People = React.createClass({
 
       <div className='people'>
 
+        <h3>People</h3>
+
         <PersonForm onPersonSubmit={ this.handlePersonSubmit } />
+
+        <PersonDisplay />
 
         <PeopleList data={ this.state.data } />
 

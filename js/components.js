@@ -111,7 +111,11 @@ var People = React.createClass({displayName: "People",
 
       React.createElement("div", {className: "people"}, 
 
+        React.createElement("h3", null, "People"), 
+
         React.createElement(PersonForm, {onPersonSubmit:  this.handlePersonSubmit}), 
+
+        React.createElement(PersonDisplay, null), 
 
         React.createElement(PeopleList, {data:  this.state.data})
 
@@ -138,16 +142,16 @@ var PeopleList = React.createClass({displayName: "PeopleList",
 
   render: function() {
 
-    var data, people, personListItems;
+    var data, people, peopleListItems;
 
     data   = this.props.data;
     people = data.people !== undefined ? data.people : [];
 
-    personListItems = people.map( function( person ) {
+    peopleListItems = people.map( function( person ) {
 
       return (
 
-        React.createElement(PersonListItem, {person:  person })
+        React.createElement(PeopleListItem, {person:  person })
 
       );
 
@@ -155,13 +159,41 @@ var PeopleList = React.createClass({displayName: "PeopleList",
 
     return (
 
-      React.createElement("div", {className: "people-list"}, 
+      React.createElement("ul", {className: "people-list"}, 
 
-        React.createElement("h3", null, "People List"), 
+         peopleListItems 
 
-        React.createElement(PersonDisplay, null), 
+      )
 
-         personListItems 
+    );
+
+  }
+
+});
+
+var PeopleListItem = React.createClass({displayName: "PeopleListItem",
+
+  propTypes: {
+    person: React.PropTypes.object
+  },
+
+  getDefaultProps: function() {
+
+    return {
+      person: {}
+    };
+
+  },
+
+  render: function() {
+
+    return (
+
+      React.createElement("li", {className: "people-list__item"}, 
+
+        React.createElement(PersonNameBtn, React.__spread({},   this.props )), 
+
+        React.createElement("button", null, "x")
 
       )
 
@@ -312,38 +344,6 @@ var PersonForm = React.createClass({displayName: "PersonForm",
       )
 
     );
-  }
-
-});
-
-var PersonListItem = React.createClass({displayName: "PersonListItem",
-
-  propTypes: {
-    person: React.PropTypes.object
-  },
-
-  getDefaultProps: function() {
-
-    return {
-      person: {}
-    };
-
-  },
-
-  render: function() {
-
-    return (
-
-      React.createElement("div", {className: "person-list-item"}, 
-
-        React.createElement(PersonNameBtn, React.__spread({},   this.props )), 
-
-        React.createElement("button", null, "x")
-
-      )
-
-    );
-
   }
 
 });

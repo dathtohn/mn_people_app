@@ -1,4 +1,4 @@
-var PersonListItem = React.createClass({
+var PeopleListItem = React.createClass({
 
   propTypes: {
     person: React.PropTypes.object
@@ -16,13 +16,13 @@ var PersonListItem = React.createClass({
 
     return (
 
-      <div className="person-list-item">
+      <li className="people-list__item">
 
         <PersonNameBtn { ...this.props } />
 
         <button>x</button>
 
-      </div>
+      </li>
 
     );
 

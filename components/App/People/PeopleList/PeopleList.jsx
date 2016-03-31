@@ -14,16 +14,16 @@ var PeopleList = React.createClass({
 
   render: function() {
 
-    var data, people, personListItems;
+    var data, people, peopleListItems;
 
     data   = this.props.data;
     people = data.people !== undefined ? data.people : [];
 
-    personListItems = people.map( function( person ) {
+    peopleListItems = people.map( function( person ) {
 
       return (
 
-        <PersonListItem person={ person } />
+        <PeopleListItem person={ person } />
 
       );
 
@@ -31,15 +31,11 @@ var PeopleList = React.createClass({
 
     return (
 
-      <div className="people-list">
+      <ul className="people-list">
 
-        <h3>People List</h3>
+        { peopleListItems }
 
-        <PersonDisplay />
-
-        { personListItems }
-
-      </div>
+      </ul>
 
     );
 

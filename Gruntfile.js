@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     sass_globbing: {
       dist: {
         files: {
-          'sass/components.scss': 'components/**/*.scss',
+          'sass/components.scss': 'components/**/*.scss'
         },
         options: {
           useSingleQuotes: false
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         },
         files: {
           'css/main.min.css': [
-            'sass/main.scss',
+            'sass/main.scss'
           ]
         }
       }
@@ -77,6 +77,13 @@ module.exports = function(grunt) {
       react: {
         files: 'components/**/*.jsx',
         tasks: ['react']
+      },
+      sass: {
+        files: [
+          'components/**/*.scss',
+          'sass/**/*.scss'
+        ],
+        tasks: ['sass']
       },
       js: {
         files: [
