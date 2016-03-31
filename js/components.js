@@ -155,11 +155,74 @@ var PeopleList = React.createClass({displayName: "PeopleList",
 
     return (
 
-      React.createElement("div", {className: "peopleList"}, 
+      React.createElement("div", {className: "people-list"}, 
 
         React.createElement("h3", null, "People List"), 
 
+        React.createElement(PersonDisplay, null), 
+
          personListItems 
+
+      )
+
+    );
+
+  }
+
+});
+
+var PersonDisplay = React.createClass({displayName: "PersonDisplay",
+
+  getInitialState: function() {
+
+    return {
+      person: {}
+    };
+
+  },
+
+  componentDidMount: function() {
+
+    var dispatcher, peopleActions;
+
+    dispatcher    = Dispatcher();
+    peopleActions = PeopleActions();
+
+    dispatcher.registerHandler( 'display person', function() {
+
+      this.setState({
+        person: peopleActions.getCurrent()
+      });
+
+    }.bind( this ));
+
+  },
+
+  render: function() {
+
+    var person, copy;
+
+    person = this.state.person;
+
+    if ( person ) {
+
+      if ( person.name && person.date_of_birth ) {
+
+        copy = person.name + "'s birthday is on " + person.date_of_birth;
+
+      } else {
+
+        copy = 'Click on a person to display his or her birthday.';
+
+      }
+
+    }
+
+    return (
+
+      React.createElement("div", {className: "person-display"}, 
+
+         copy 
 
       )
 
@@ -269,21 +332,56 @@ var PersonListItem = React.createClass({displayName: "PersonListItem",
 
   render: function() {
 
-    var person;
+    return (
 
-    person = this.props.person;
+      React.createElement("div", {className: "person-list-item"}, 
+
+        React.createElement(PersonNameBtn, React.__spread({},   this.props )), 
+
+        React.createElement("button", null, "x")
+
+      )
+
+    );
+
+  }
+
+});
+
+var PersonNameBtn = React.createClass({displayName: "PersonNameBtn",
+
+  propTypes: {
+    person: React.PropTypes.object
+  },
+
+  getDefaultProps: function() {
+
+    return {
+      person: {}
+    };
+
+  },
+
+  handleClick: function( e ) {
+
+    var dispatcher, peopleActions;
+
+    dispatcher    = Dispatcher();
+    peopleActions = PeopleActions();
+
+    peopleActions.setCurrent( this.props.person );
+
+    dispatcher.fire( 'display person' );
+
+  },
+
+  render: function() {
 
     return (
 
-      React.createElement("div", {className: "personListItem"}, 
+      React.createElement("button", {className: "person-name-btn", onClick:  this.handleClick}, 
 
-        React.createElement("button", null, 
-
-           person.name
-
-        ), 
-
-        React.createElement("button", null, "x")
+         this.props.person.name
 
       )
 

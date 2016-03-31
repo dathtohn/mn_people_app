@@ -31,9 +31,11 @@ var PeopleList = React.createClass({
 
     return (
 
-      <div className="peopleList">
+      <div className="people-list">
 
         <h3>People List</h3>
+
+        <PersonDisplay />
 
         { personListItems }
 

@@ -14,19 +14,11 @@ var PersonListItem = React.createClass({
 
   render: function() {
 
-    var person;
-
-    person = this.props.person;
-
     return (
 
-      <div className="personListItem">
+      <div className="person-list-item">
 
-        <button>
-
-          { person.name }
-
-        </button>
+        <PersonNameBtn { ...this.props } />
 
         <button>x</button>
 

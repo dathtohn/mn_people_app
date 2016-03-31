@@ -19,7 +19,10 @@ module.exports = function(grunt) {
       },
       all: [
         'Gruntfile.js',
+        'actions/*.js',
+        'dispatcher/*.js',
         'js/*.js',
+        '!js/vendor/**/*.js',
         '!js/scripts.min.js',
       ]
     },
@@ -56,6 +59,8 @@ module.exports = function(grunt) {
       dist: {
         files: {
           'js/scripts.min.js': [
+            'actions/*.js',
+            'dispatcher/*.js',
             'js/vendor/react-0.13.1/**/*.js',
             'js/components.js'
           ]
