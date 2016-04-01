@@ -8,6 +8,9 @@ module.exports = function(grunt) {
         files: {
           'js/components.js': [
             'components/**/*.jsx'
+          ],
+          'js/tests.js': [
+            'tests/**/*.jsx'
           ]
         }
       }
@@ -61,8 +64,8 @@ module.exports = function(grunt) {
           'js/scripts.min.js': [
             'actions/*.js',
             'dispatcher/*.js',
-            'js/vendor/react-0.13.1/**/*.js',
-            'js/components.js'
+            'js/components.js',
+            'js/tests.js'
           ]
         },
         options: {
@@ -75,7 +78,7 @@ module.exports = function(grunt) {
 
     watch: {
       react: {
-        files: 'components/**/*.jsx',
+        files: ['components/**/*.jsx', 'tests/**/*.jsx'],
         tasks: ['react']
       },
       sass: {
