@@ -32,7 +32,11 @@ var PeopleDisplay = React.createClass({
 
     return (
 
-      <div className="people-display">
+      <div className='people-display'>
+
+        <h1 className='people-display--title'>
+          Filter and Delete People at will!
+        </h1>
 
         <PeopleDisplayFilter handleFilterChange={ this.handleFilterChange } filter={ this.state.filter } />
 

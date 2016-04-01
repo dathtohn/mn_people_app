@@ -136,13 +136,11 @@ var People = React.createClass({
 
       <div className='people'>
 
-        <h3>People</h3>
-
-        <PersonForm onPersonSubmit={ this.handlePersonSubmit } />
-
         <PersonDisplay />
 
         <PeopleDisplay data={ this.state.data } />
+
+        <PersonForm onPersonSubmit={ this.handlePersonSubmit } />
 
       </div>
 

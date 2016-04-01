@@ -1,0 +1,42 @@
+.person-form {
+  font-family: 'Roboto', sans-serif;
+  padding: 20px 0;
+
+  &__title {
+    color: #6A7AFF;
+    font-size: 24px;
+    font-weight: normal;
+  }
+
+  %person-form__input {
+    display: block;
+    font-size: 18px;
+    margin: 12px 0 0 0;
+  }
+
+  &__input-text {
+    @extend %person-form__input;
+    padding: 11px 12px;
+  }
+
+  &__input-date {
+    @extend %person-form__input;
+    padding: 8px 12px;
+  }
+
+  &__btn-submit {
+    background-color: #FF8F8F;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: block;
+    font-size: 12px;
+    margin: 16px 0 0 0;
+    padding: 12px;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: #FFAAAA;
+    }
+  }
+}

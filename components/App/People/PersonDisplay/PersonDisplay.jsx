@@ -53,9 +53,15 @@ var PersonDisplay = React.createClass({
 
     return (
 
-      <div className="person-display">
+      <div className='person-display'>
 
-        { copy }
+        <h1 className='person-display__title'>
+          { "Display a Person's Birthday." }
+        </h1>
+
+        <div className='person-display__birthday'>
+          { copy }
+        </div>
 
       </div>
 

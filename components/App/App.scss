@@ -1,0 +1,13 @@
+.app {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 36px 0;
+  width: auto;
+
+  &__title {
+    color: #6A7AFF;
+    font-family: 'Roboto', sans-serif;
+    font-size: 36px;
+    font-weight: normal;
+  }
+}

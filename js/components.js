@@ -6,7 +6,7 @@ var App = React.createClass({displayName: "App",
 
       React.createElement("div", {className: "app"}, 
 
-        React.createElement("h1", null, "Mommy Nearest People App"), 
+        React.createElement("h1", {className: "app__title"}, "Mommy Nearest People App"), 
 
         React.createElement(People, null)
 
@@ -155,13 +155,11 @@ var People = React.createClass({displayName: "People",
 
       React.createElement("div", {className: "people"}, 
 
-        React.createElement("h3", null, "People"), 
-
-        React.createElement(PersonForm, {onPersonSubmit:  this.handlePersonSubmit}), 
-
         React.createElement(PersonDisplay, null), 
 
-        React.createElement(PeopleDisplay, {data:  this.state.data})
+        React.createElement(PeopleDisplay, {data:  this.state.data}), 
+
+        React.createElement(PersonForm, {onPersonSubmit:  this.handlePersonSubmit})
 
       )
 
@@ -205,6 +203,10 @@ var PeopleDisplay = React.createClass({displayName: "PeopleDisplay",
     return (
 
       React.createElement("div", {className: "people-display"}, 
+
+        React.createElement("h1", {className: "people-display--title"}, 
+          "Filter and Delete People at will!"
+        ), 
 
         React.createElement(PeopleDisplayFilter, {handleFilterChange:  this.handleFilterChange, filter:  this.state.filter}), 
 
@@ -557,7 +559,13 @@ var PersonDisplay = React.createClass({displayName: "PersonDisplay",
 
       React.createElement("div", {className: "person-display"}, 
 
-         copy 
+        React.createElement("h1", {className: "person-display__title"}, 
+           "Display a Person's Birthday." 
+        ), 
+
+        React.createElement("div", {className: "person-display__birthday"}, 
+           copy 
+        )
 
       )
 
@@ -626,23 +634,26 @@ var PersonForm = React.createClass({displayName: "PersonForm",
 
     return (
 
-      React.createElement("form", {className: "personForm", onSubmit:  this.handleSubmit}, 
+      React.createElement("form", {className: "person-form", onSubmit:  this.handleSubmit}, 
+
+        React.createElement("h1", {className: "person-form__title"}, "Enter name and birthday. Then hit create!"), 
 
         React.createElement("input", {
+          className: "person-form__input-text", 
           type: "text", 
-          placeholder: "Your name", 
+          placeholder: "Name", 
           value:  this.state.name, 
           onChange:  this.handleNameChange}
         ), 
 
         React.createElement("input", {
+          className: "person-form__input-date", 
           type: "date", 
-          placeholder: "Say something...", 
           value:  this.state.dateOfBirth, 
           onChange:  this.handleDateOfBirthChange}
         ), 
 
-        React.createElement("input", {type: "submit", value: "Post"})
+        React.createElement("button", {className: "person-form__btn-submit", type: "submit"}, "Create Person")
 
       )
 

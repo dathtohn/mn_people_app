@@ -1,31 +1,64 @@
 .people-display {
+  font-family: 'Roboto', sans-serif;
+  padding: 20px 0;
+
+  &--title {
+    color: #6A7AFF;
+    font-size: 24px;
+    font-weight: normal;
+  }
+
+  %people-display__btn {
+    border: none;
+    cursor: pointer;
+  }
 
   &__btn-delete {
+    @extend %people-display__btn;
+    background-color: #EEE;
+    font-size: 12px;
+    float: right;
+    margin: -3px 0 0 0;
+    padding: 8px 12px;
+    text-transform: uppercase;
 
+    &:hover {
+      background-color: red;
+      color: white;
+    }
   }
 
   &__btn-name {
+    @extend %people-display__btn;
+    background-color: transparent;
+    color: black;
+    font-size: 18px;
+    text-align: left;
 
+    &:hover {
+      color: #888;
+    }
   }
 
   &__list {
     list-style-type: none;
+    margin: 0;
+    padding: 20px 0 0 0;
 
     .people-display__list-item {
-      height: auto;
-      opacity: 1;
-      transition: opacity 0.4s linear;
+      border-bottom: 1px solid white;
+      border-top: 1px solid white;
+      display: block;
+      padding: 6px 0;
     }
 
     &.people-display__list--deleted {
 
       .people-display__list-item {
-        height: 0;
-        opacity: 0;
+        display: none;
 
         &.people-display__list-item--deleted {
-          height: auto;
-          opacity: 1;
+          display: block;
         }
       }
     }
@@ -33,12 +66,10 @@
     &.people-display__list--undeleted {
 
       .people-display__list-item {
-        height: auto;
-        opacity: 1;
+        display: block;
 
         &.people-display__list-item--deleted {
-          height: 0;
-          opacity: 0;
+          display: none;
         }
       }
     }

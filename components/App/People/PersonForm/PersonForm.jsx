@@ -57,23 +57,26 @@ var PersonForm = React.createClass({
 
     return (
 
-      <form className="personForm" onSubmit={ this.handleSubmit }>
+      <form className='person-form' onSubmit={ this.handleSubmit }>
+
+        <h1 className='person-form__title'>Enter name and birthday. Then hit create!</h1>
 
         <input
-          type="text"
-          placeholder="Your name"
+          className='person-form__input-text'
+          type='text'
+          placeholder='Name'
           value={ this.state.name }
           onChange={ this.handleNameChange }
         />
 
         <input
-          type="date"
-          placeholder="Say something..."
+          className='person-form__input-date'
+          type='date'
           value={ this.state.dateOfBirth }
           onChange={ this.handleDateOfBirthChange }
         />
 
-        <input type="submit" value="Post" />
+        <button className='person-form__btn-submit' type='submit'>Create Person</button>
 
       </form>
 

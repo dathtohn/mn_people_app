@@ -6,7 +6,7 @@ var App = React.createClass({
 
       <div className='app'>
 
-        <h1>Mommy Nearest People App</h1>
+        <h1 className='app__title'>Mommy Nearest People App</h1>
 
         <People />
 
