@@ -40,17 +40,17 @@
     }
   }
 
+  .people-display__list-item {
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    display: block;
+    padding: 6px 0;
+  }
+
   &__list {
     list-style-type: none;
     margin: 0;
     padding: 20px 0 0 0;
-
-    .people-display__list-item {
-      border-bottom: 1px solid white;
-      border-top: 1px solid white;
-      display: block;
-      padding: 6px 0;
-    }
 
     &.people-display__list--deleted {
 
@@ -76,11 +76,24 @@
 
   }
 
-  &__list-item {
+  %people-display__filter-radio {
+    margin: -5px 4px 0 20px;
+    vertical-align: middle;
 
+    &:first-of-type {
+      margin-left: 0;
+    }
   }
 
-  &__list-item--deleted {
+  #people-display__filter-radio--all {
+    @extend %people-display__filter-radio;
+  }
 
+  #people-display__filter-radio--undeleted {
+    @extend %people-display__filter-radio;
+  }
+
+  #people-display__filter-radio--deleted {
+    @extend %people-display__filter-radio;
   }
 }
