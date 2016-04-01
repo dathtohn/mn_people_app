@@ -5,29 +5,49 @@ var PeopleActions = (function () {
 
   function _factory() {
 
-    var current;
+    var personToDisplay, personToDelete;
 
-    function setCurrent( person ) {
+    function setPersonToDisplay( person ) {
 
-      current = person;
+      personToDisplay = person;
 
     }
 
-    function getCurrent() {
+    function getPersonToDisplay() {
 
-      if ( current ) {
+      if ( personToDisplay ) {
 
-        return current;
+        return personToDisplay;
 
       }
 
-      console.log( 'No current person set.' );
+      console.log( 'No person set.' );
+
+    }
+
+    function setPersonToDelete( person ) {
+
+      personToDelete = person;
+
+    }
+
+    function getPersonToDelete() {
+
+      if ( personToDelete ) {
+
+        return personToDelete;
+
+      }
+
+      console.log( 'No person set.' );
 
     }
 
     return {
-      setCurrent: setCurrent,
-      getCurrent: getCurrent
+      setPersonToDisplay: setPersonToDisplay,
+      getPersonToDisplay: getPersonToDisplay,
+      setPersonToDelete:  setPersonToDelete,
+      getPersonToDelete:  getPersonToDelete
     };
 
   }

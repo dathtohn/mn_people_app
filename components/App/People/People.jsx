@@ -22,11 +22,13 @@ var People = React.createClass({
 
   componentDidMount: function() {
 
-    this.loadPeopleFromServer();
+    this.getPeopleData();
+
+    this.registerDeletePersonEvt();
 
   },
 
-  loadPeopleFromServer: function() {
+  getPeopleData: function() {
 
     $.ajax({
       url: this.props.url,
@@ -41,6 +43,48 @@ var People = React.createClass({
         console.error( this.props.url, status, err.toString() );
       }.bind( this )
     });
+
+  },
+
+  registerDeletePersonEvt: function() {
+
+    var dispatcher;
+
+    dispatcher = Dispatcher();
+
+    dispatcher.registerHandler( 'delete person', this.handleDeletePersonEvt );
+
+  },
+
+  handleDeletePersonEvt: function() {
+
+    var peopleActions, person, personId;
+
+    peopleActions = PeopleActions();
+
+    person   = peopleActions.getPersonToDelete();
+    personId = person.id;
+
+    if ( personId ) {
+
+      var url;
+
+      url = this.props.url + '/' + personId;
+
+      $.ajax({
+        url:      url,
+        type:     'DELETE',
+        success:  function( data ) {
+                    this.setState({
+                      data: data
+                     });
+                  }.bind( this ),
+        error:    function( xhr, status, err ) {
+                    console.error( this.props.url, status, err.toString() );
+                  }.bind( this )
+      });
+
+    }
 
   },
 
@@ -67,21 +111,21 @@ var People = React.createClass({
     });
 
     $.ajax({
-      url: this.props.url,
+      url:      this.props.url,
       dataType: 'json',
-      type: 'POST',
-      data: { person: newPerson },
-      success: function( data ) {
-        this.setState({
-          data: data
-        });
-      }.bind( this ),
-      error: function( xhr, status, err ) {
-        this.setState({
-          data: people
-        });
-        console.error( this.props.url, status, err.toString() );
-      }.bind( this )
+      type:     'POST',
+      data:     { person: newPerson },
+      success:  function( data ) {
+                  this.setState({
+                    data: data
+                  });
+                }.bind( this ),
+      error:    function( xhr, status, err ) {
+                  this.setState({
+                    data: people
+                  });
+                  console.error( this.props.url, status, err.toString() );
+                }.bind( this )
     });
 
   },
@@ -98,7 +142,7 @@ var People = React.createClass({
 
         <PersonDisplay />
 
-        <PeopleList data={ this.state.data } />
+        <PeopleDisplay data={ this.state.data } />
 
       </div>
 

@@ -10,6 +10,12 @@ var PersonDisplay = React.createClass({
 
   componentDidMount: function() {
 
+    this.handleDisplayPersonEvt();
+
+  },
+
+  handleDisplayPersonEvt: function() {
+
     var dispatcher, peopleActions;
 
     dispatcher    = Dispatcher();
@@ -18,7 +24,7 @@ var PersonDisplay = React.createClass({
     dispatcher.registerHandler( 'display person', function() {
 
       this.setState({
-        person: peopleActions.getCurrent()
+        person: peopleActions.getPersonToDisplay()
       });
 
     }.bind( this ));

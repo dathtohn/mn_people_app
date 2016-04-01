@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "AAAA,YAAa,CACX,eAAe,CAAE,IAAI",
-"sources": ["../components/App/People/PeopleList/PeopleList.scss"],
+"mappings": "AAUE,qBAAQ,CACN,eAAe,CAAE,IAAI,CAErB,gDAA2B,CACzB,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,CAAC,CACV,UAAU,CAAE,mBAAmB,CAK/B,8EAA2B,CACzB,MAAM,CAAE,CAAC,CACT,OAAO,CAAE,CAAC,CAEV,iHAAqC,CACnC,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,CAAC,CAOd,gFAA2B,CACzB,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,CAAC,CAEV,mHAAqC,CACnC,MAAM,CAAE,CAAC,CACT,OAAO,CAAE,CAAC",
+"sources": ["../components/App/People/PeopleDisplay/PeopleDisplay.scss"],
 "names": [],
 "file": "main.min.css"
 }

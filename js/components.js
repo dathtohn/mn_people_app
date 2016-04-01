@@ -41,11 +41,13 @@ var People = React.createClass({displayName: "People",
 
   componentDidMount: function() {
 
-    this.loadPeopleFromServer();
+    this.getPeopleData();
+
+    this.registerDeletePersonEvt();
 
   },
 
-  loadPeopleFromServer: function() {
+  getPeopleData: function() {
 
     $.ajax({
       url: this.props.url,
@@ -60,6 +62,48 @@ var People = React.createClass({displayName: "People",
         console.error( this.props.url, status, err.toString() );
       }.bind( this )
     });
+
+  },
+
+  registerDeletePersonEvt: function() {
+
+    var dispatcher;
+
+    dispatcher = Dispatcher();
+
+    dispatcher.registerHandler( 'delete person', this.handleDeletePersonEvt );
+
+  },
+
+  handleDeletePersonEvt: function() {
+
+    var peopleActions, person, personId;
+
+    peopleActions = PeopleActions();
+
+    person   = peopleActions.getPersonToDelete();
+    personId = person.id;
+
+    if ( personId ) {
+
+      var url;
+
+      url = this.props.url + '/' + personId;
+
+      $.ajax({
+        url:      url,
+        type:     'DELETE',
+        success:  function( data ) {
+                    this.setState({
+                      data: data
+                     });
+                  }.bind( this ),
+        error:    function( xhr, status, err ) {
+                    console.error( this.props.url, status, err.toString() );
+                  }.bind( this )
+      });
+
+    }
 
   },
 
@@ -86,21 +130,21 @@ var People = React.createClass({displayName: "People",
     });
 
     $.ajax({
-      url: this.props.url,
+      url:      this.props.url,
       dataType: 'json',
-      type: 'POST',
-      data: { person: newPerson },
-      success: function( data ) {
-        this.setState({
-          data: data
-        });
-      }.bind( this ),
-      error: function( xhr, status, err ) {
-        this.setState({
-          data: people
-        });
-        console.error( this.props.url, status, err.toString() );
-      }.bind( this )
+      type:     'POST',
+      data:     { person: newPerson },
+      success:  function( data ) {
+                  this.setState({
+                    data: data
+                  });
+                }.bind( this ),
+      error:    function( xhr, status, err ) {
+                  this.setState({
+                    data: people
+                  });
+                  console.error( this.props.url, status, err.toString() );
+                }.bind( this )
     });
 
   },
@@ -117,7 +161,7 @@ var People = React.createClass({displayName: "People",
 
         React.createElement(PersonDisplay, null), 
 
-        React.createElement(PeopleList, {data:  this.state.data})
+        React.createElement(PeopleDisplay, {data:  this.state.data})
 
       )
 
@@ -126,32 +170,268 @@ var People = React.createClass({displayName: "People",
 
 });
 
-var PeopleList = React.createClass({displayName: "PeopleList",
+var PeopleDisplay = React.createClass({displayName: "PeopleDisplay",
 
   propTypes: {
-    data: React.PropTypes.array
+    data: React.PropTypes.object
   },
 
   getDefaultProps: function() {
 
     return {
-      data: {}
+      data: {},
     };
+
+  },
+
+  getInitialState: function() {
+
+    return {
+      filter: 'all'
+    };
+
+  },
+
+  handleFilterChange: function( filter ) {
+
+    this.setState({
+      filter: filter
+    });
 
   },
 
   render: function() {
 
-    var data, people, peopleListItems;
+    return (
+
+      React.createElement("div", {className: "people-display"}, 
+
+        React.createElement(PeopleDisplayFilter, {handleFilterChange:  this.handleFilterChange, filter:  this.state.filter}), 
+
+        React.createElement(PeopleDisplayList, {data:  this.props.data, filter:  this.state.filter})
+
+      )
+
+    );
+
+  }
+
+});
+
+var PeopleDisplayBtnDelete = React.createClass({displayName: "PeopleDisplayBtnDelete",
+
+  propTypes: {
+    person: React.PropTypes.object
+  },
+
+  getDefaultProps: function() {
+
+    return {
+      person: {}
+    };
+
+  },
+
+  handleClick: function( e ) {
+
+    var dispatcher, peopleActions;
+
+    dispatcher    = Dispatcher();
+    peopleActions = PeopleActions();
+
+    peopleActions.setPersonToDelete( this.props.person );
+
+    dispatcher.fire( 'delete person' );
+
+  },
+
+  render: function() {
+
+    return (
+
+      React.createElement("button", {className: "people-display__btn-delete", onClick:  this.handleClick}, 
+
+        "delete"
+
+      )
+
+    );
+
+  }
+
+});
+
+var PeopleDisplayBtnName = React.createClass({displayName: "PeopleDisplayBtnName",
+
+  propTypes: {
+    person: React.PropTypes.object
+  },
+
+  getDefaultProps: function() {
+
+    return {
+      person: {}
+    };
+
+  },
+
+  handleClick: function( e ) {
+
+    var dispatcher, peopleActions;
+
+    dispatcher    = Dispatcher();
+    peopleActions = PeopleActions();
+
+    peopleActions.setPersonToDisplay( this.props.person );
+
+    dispatcher.fire( 'display person' );
+
+  },
+
+  render: function() {
+
+    return (
+
+      React.createElement("button", {className: "people-display__btn-name", onClick:  this.handleClick}, 
+
+         this.props.person.name
+
+      )
+
+    );
+
+  }
+
+});
+
+var PeopleDisplayFilter = React.createClass({displayName: "PeopleDisplayFilter",
+
+  propTypes: {
+    handleFilterChange: React.PropTypes.func.isRequired,
+    filter:             React.PropTypes.string.isRequired
+  },
+
+  handleOnChange: function( e ) {
+
+    this.props.handleFilterChange( e.target.value );
+
+  },
+
+  render: function() {
+
+    return (
+
+      React.createElement("div", {className: "people-display__filter"}, 
+
+        React.createElement("input", {id: "people-display__filter-radio--all", type: "radio", name: "filter", value: "all", checked:  'all' === this.props.filter, onChange:  this.handleOnChange}), 
+
+        React.createElement("label", {for: "people-display__filter-radio--all"}, 
+          "All"
+        ), 
+
+        React.createElement("input", {id: "people-display__filter-radio--undeleted", type: "radio", name: "filter", value: "undeleted", checked:  'undeleted' === this.props.filter, onChange:  this.handleOnChange}), 
+
+        React.createElement("label", {for: "people-display__filter-radio--undeleted"}, 
+          "Undeleted"
+        ), 
+
+        React.createElement("input", {id: "people-display__filter-radio--deleted", type: "radio", name: "filter", value: "deleted", checked:  'deleted' === this.props.filter, onChange:  this.handleOnChange}), 
+
+        React.createElement("label", {for: "people-display__filter-radio--deleted"}, 
+          "Deleted"
+        )
+
+      )
+
+    );
+
+  }
+
+});
+
+
+var PeopleDisplayList = React.createClass({displayName: "PeopleDisplayList",
+
+  propTypes: {
+    data:      React.PropTypes.object,
+    deleted:   React.PropTypes.bool,
+    undeleted: React.PropTypes.bool
+  },
+
+  getDefaultProps: function() {
+
+    return {
+      data:   {},
+      filter: 'all'
+    };
+
+  },
+
+  getInitialState: function() {
+
+    return {
+      className: 'people-display__list'
+    };
+
+  },
+
+  componentWillReceiveProps: function( nextProps ) {
+
+    this.handleNextPropsFilter( nextProps.filter, this.props.filter );
+
+  },
+
+  shouldComponentUpdate: function( nextProps, nextState ) {
+
+    return nextProps.data !== this.props.data;
+
+  },
+
+  handleNextPropsFilter: function( nextFilter, filter ) {
+
+    if ( nextFilter !== filter ) {
+
+      var $this;
+
+      $this = $(this.getDOMNode());
+
+      switch ( nextFilter ) {
+
+        case 'deleted':
+          $this.removeClass( 'people-display__list--undeleted' ).addClass( 'people-display__list--deleted' );
+          break;
+
+        case 'undeleted':
+          $this.removeClass( 'people-display__list--deleted' ).addClass( 'people-display__list--undeleted' );
+          break;
+
+        default:
+          $this.removeClass( 'people-display__list--undeleted people-display__list--deleted' );
+
+      }
+
+    }
+
+  },
+
+  updateClassName: function( newClassName, className ) {
+
+    $(this.getDOMNode()).addClass( newClassName ).removeClass( className );
+
+  },
+
+  render: function() {
+
+    var data, people, peopleDisplayListItems;
 
     data   = this.props.data;
     people = data.people !== undefined ? data.people : [];
 
-    peopleListItems = people.map( function( person ) {
+    peopleDisplayListItems = people.map( function( person ) {
 
       return (
 
-        React.createElement(PeopleListItem, {person:  person })
+        React.createElement(PeopleDisplayListItem, {person:  person })
 
       );
 
@@ -159,9 +439,9 @@ var PeopleList = React.createClass({displayName: "PeopleList",
 
     return (
 
-      React.createElement("ul", {className: "people-list"}, 
+      React.createElement("ul", {className:  this.state.className}, 
 
-         peopleListItems 
+         peopleDisplayListItems 
 
       )
 
@@ -171,7 +451,7 @@ var PeopleList = React.createClass({displayName: "PeopleList",
 
 });
 
-var PeopleListItem = React.createClass({displayName: "PeopleListItem",
+var PeopleDisplayListItem = React.createClass({displayName: "PeopleDisplayListItem",
 
   propTypes: {
     person: React.PropTypes.object
@@ -187,13 +467,30 @@ var PeopleListItem = React.createClass({displayName: "PeopleListItem",
 
   render: function() {
 
+    var classes, btnDelete;
+
+    classes = 'people-display__list-item';
+
+
+    if ( this.props.person.deleted_at ) {
+
+      classes+= ' people-display__list-item--deleted';
+
+      btnDelete = null;
+
+    } else {
+
+      btnDelete = React.createElement(PeopleDisplayBtnDelete, React.__spread({},   this.props ));
+
+    }
+
     return (
 
-      React.createElement("li", {className: "people-list__item"}, 
+      React.createElement("li", {className:  classes }, 
 
-        React.createElement(PersonNameBtn, React.__spread({},   this.props )), 
+        React.createElement(PeopleDisplayBtnName, React.__spread({},   this.props )), 
 
-        React.createElement("button", null, "x")
+         btnDelete 
 
       )
 
@@ -215,6 +512,12 @@ var PersonDisplay = React.createClass({displayName: "PersonDisplay",
 
   componentDidMount: function() {
 
+    this.handleDisplayPersonEvt();
+
+  },
+
+  handleDisplayPersonEvt: function() {
+
     var dispatcher, peopleActions;
 
     dispatcher    = Dispatcher();
@@ -223,7 +526,7 @@ var PersonDisplay = React.createClass({displayName: "PersonDisplay",
     dispatcher.registerHandler( 'display person', function() {
 
       this.setState({
-        person: peopleActions.getCurrent()
+        person: peopleActions.getPersonToDisplay()
       });
 
     }.bind( this ));
@@ -344,49 +647,6 @@ var PersonForm = React.createClass({displayName: "PersonForm",
       )
 
     );
-  }
-
-});
-
-var PersonNameBtn = React.createClass({displayName: "PersonNameBtn",
-
-  propTypes: {
-    person: React.PropTypes.object
-  },
-
-  getDefaultProps: function() {
-
-    return {
-      person: {}
-    };
-
-  },
-
-  handleClick: function( e ) {
-
-    var dispatcher, peopleActions;
-
-    dispatcher    = Dispatcher();
-    peopleActions = PeopleActions();
-
-    peopleActions.setCurrent( this.props.person );
-
-    dispatcher.fire( 'display person' );
-
-  },
-
-  render: function() {
-
-    return (
-
-      React.createElement("button", {className: "person-name-btn", onClick:  this.handleClick}, 
-
-         this.props.person.name
-
-      )
-
-    );
-
   }
 
 });
