@@ -19,19 +19,19 @@ var PeopleDisplayFilter = React.createClass({
 
         <input id='people-display__filter-radio--all' type='radio' name='filter' value='all' checked={ 'all' === this.props.filter } onChange={ this.handleOnChange } />
 
-        <label for='people-display__filter-radio--all'>
+        <label className='people-display__filter-label' htmlFor='people-display__filter-radio--all'>
           All
         </label>
 
         <input id='people-display__filter-radio--undeleted' type='radio' name='filter' value='undeleted' checked={ 'undeleted' === this.props.filter } onChange={ this.handleOnChange } />
 
-        <label for='people-display__filter-radio--undeleted'>
+        <label className='people-display__filter-label' htmlFor='people-display__filter-radio--undeleted'>
           Undeleted
         </label>
 
         <input id='people-display__filter-radio--deleted' type='radio' name='filter' value='deleted' checked={ 'deleted' === this.props.filter } onChange={ this.handleOnChange } />
 
-        <label for='people-display__filter-radio--deleted'>
+        <label className='people-display__filter-label' htmlFor='people-display__filter-radio--deleted'>
           Deleted
         </label>
 

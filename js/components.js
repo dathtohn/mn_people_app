@@ -327,19 +327,19 @@ var PeopleDisplayFilter = React.createClass({displayName: "PeopleDisplayFilter",
 
         React.createElement("input", {id: "people-display__filter-radio--all", type: "radio", name: "filter", value: "all", checked:  'all' === this.props.filter, onChange:  this.handleOnChange}), 
 
-        React.createElement("label", {for: "people-display__filter-radio--all"}, 
+        React.createElement("label", {className: "people-display__filter-label", htmlFor: "people-display__filter-radio--all"}, 
           "All"
         ), 
 
         React.createElement("input", {id: "people-display__filter-radio--undeleted", type: "radio", name: "filter", value: "undeleted", checked:  'undeleted' === this.props.filter, onChange:  this.handleOnChange}), 
 
-        React.createElement("label", {for: "people-display__filter-radio--undeleted"}, 
+        React.createElement("label", {className: "people-display__filter-label", htmlFor: "people-display__filter-radio--undeleted"}, 
           "Undeleted"
         ), 
 
         React.createElement("input", {id: "people-display__filter-radio--deleted", type: "radio", name: "filter", value: "deleted", checked:  'deleted' === this.props.filter, onChange:  this.handleOnChange}), 
 
-        React.createElement("label", {for: "people-display__filter-radio--deleted"}, 
+        React.createElement("label", {className: "people-display__filter-label", htmlFor: "people-display__filter-radio--deleted"}, 
           "Deleted"
         )
 
